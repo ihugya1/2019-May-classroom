@@ -32,8 +32,8 @@ namespace OOPsReview
         //Auto Implemented property: the property does not need a private data member
         //      to hold the actual data.
         //      The data storage will be managed by the system.
-        public int Height { get; set; }
-        public int Width { get; set; }
+        public double Height { get; set; }
+        public double Width { get; set; }
 
 
         //Fully Implemented property: The property will have a private data member to hold the 
@@ -73,7 +73,53 @@ namespace OOPsReview
                 }
             }
         }
-        
+        //a nullable numeric (xxx?) will contain either a null or 
+        //      a number
+        // therefore nullable numerics DO NOT need to be fully implemented
+        //      UNLESS you have additional criteria to cover
+        public double? Price { get; set; }
 
+        //Constructors
+        //Constructor(s) are executed for the client caller during 
+        //      the execution of the "new" command
+        //the client caller DOES NOT call a constructor directly
+        //if no constructors are coded in a class definition, then
+        //      the data storage within the class definition is set
+        //      to the system defaults(string -> null, numerics -> 0
+        //      bool -> false, ...)
+        //if one codes a constructor with the class definition
+        //      then the coder is responsible for ALL constructors
+        // syntax public classname(list of parameters) { code }
+        //
+        //there are two generally create constructors
+        //Default: simulates the System default initialization of 
+        //      your data storage items using their data type
+        //Greedy: this has a parameter list of all data storage items
+        //      defined within the class definition
+
+        //Default
+        public FencePanel()
+        {
+            //optionally you may wish to have your own default 
+            //      values for your data storage items
+        }
+        
+        //Greedy
+        public FencePanel(double height, double width, string style, double? price)
+        {
+            Height = height;
+            Width = width;
+            Style = style;
+            Price = price;
+            
+        }
+        //Behavior (aka method)
+        public double EstimatedNumberOfPanels(double linearLength,double gateWidth,int numberOfGates)
+        {
+            double totalGateWidth = gateWidth * numberOfGates;
+            double fenceWidth = linearLength - totalGateWidth;
+            double numberOfPanels = fenceWidth / Width;
+            return numberOfPanels;
+        }
     }
 }
