@@ -4,12 +4,12 @@
 
     var searchArg = Request.Form["SearchArg"];
     var theButton = Request.Form["FormButton"];
-
+    
     var regionID = "";
     var description = "";
 
     // open a connection to the database
-    //use the connection string name attribute value 
+    //use the connection string name attribute value
     var db = Database.Open("NWDB");
 
     //create the sql query command to retrieve the desired data
@@ -23,7 +23,7 @@
         + "WHERE RegionID = @0";
 
     //execute your command
-    //the result will be one of the following 
+    //the result will be one of the following
     // a) a single record
     // b) a data set of 0, 1 or more records
     // c) a single value
@@ -41,28 +41,67 @@
     <h1>DataBase : Single Record Query</h1>
 }
 
+@if (IsPost)
+{
+    // which button was presed
+    if (theButton.Equals("Clear"))
+    {
+        searchArg = "";
+        regionID = "";
+        description = "";
+    }
+    else
+    {
+        //validate that a value was supplied to search for
+        if (string.IsNullOrEmpty(searchArg))
+        {
+            <p><span style="color:firebrick">Enter a region id for which to search</span></p>
+        }
+        //test if SQL returned any data for processing
+        // QueryString(), you will check for null
+        //Query(), you will check dataset.Count() == 0
+        else if (results == null)
+        {
+            <p><span style="color:dodgerblue">No region found for the ID : @searchArg</span></p>
+            //optionally, consider emptying your result output fields
+            regionID = "";
+            description = "";
+        }
+        else
+        {
+            //accessing the data from your SQL data output can be done
+            //      a) via an index     xxxx[n] where n = 0, 1, 2, etc.
+            //      b) via property name    xxxx.PropertyName
+            //          (the PropertyName is the column title string for
+            //              your query)
+            regionID = results[0].ToString();
+            description = results.RegionDescription;
+        }
 
-    <form id="theForm" method="post">
-        
-        <div class="row">
-            <div class="col-md-6">
-                <label for="SearchArg" id="label1">Enter a Region ID:</label>
-                <input type="text" id="SearchArg" name="SearchArg"
-                       placeholder="Enter region ID" value="@searchArg" />
-                <br />
-                <input type="submit" id="FormButton" name="FormButton"
-                       class="btn btn-primary" value="Submit" />&nbsp;&nbsp;
-                <input type="submit" id="formbutton" name="formbutton"
-                       class="btn" value="Clear" />
-            </div>
-            <div class="col-md-6">
-                <label for="Region ID" id="label2">Region ID :</label>&nbsp;
-                <input type="text" id="RegionID" name="RegionID"
-                        value="@regionID" readonly="readonly"/>
-                <br />
-                <label for="Description" id="label3">Description:</label>
-                <input type="text" id="Description" name="Description"
-                       readonly="readonly" value="@description" />
-            </div>
+    }
+}
+
+<form id="theForm" method="post">
+
+    <div class="row">
+        <div class="col-md-6">
+            <label for="SearchArg" id="label1">Enter a Region ID:</label>
+            <input type="text" id="SearchArg" name="SearchArg"
+                   placeholder="Enter region ID" value="@searchArg" />
+            <br />
+            <input type="submit" id="FormButton" name="FormButton"
+                   class="btn btn-primary" value="Submit" />&nbsp;&nbsp;
+            <input type="submit" id="formbutton" name="formbutton"
+                   class="btn" value="Clear" />
         </div>
-    </form>
+        <div class="col-md-6">
+            <label for="Region ID" id="label2">Region ID :</label>&nbsp;
+            <input type="text" id="RegionID" name="RegionID"
+                   value="@regionID" readonly="readonly" />
+            <br />
+            <label for="Description" id="label3">Description:</label>
+            <input type="text" id="Description" name="Description"
+                   readonly="readonly" value="@description" />
+        </div>
+    </div>
+</form>
