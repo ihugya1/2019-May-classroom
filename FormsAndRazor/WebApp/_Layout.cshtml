@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-    <meta name="author" content="Ian Hugya" />
-    <meta name="description" content="layout page for forms and razor examples" />
+    <meta name="author" content="Don Welch" />
+    <meta name="description" content="layout page for Forms and Razor examples" />
     <title>@Page.Title</title>
     <script src="~/Scripts/jquery-3.3.1.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
@@ -16,11 +16,10 @@
             @RenderSection("banner", required: true)
         </div>
         @RenderBody()
-        <hr style="border:solid 5px black;">
-        @RenderSection("footer",required:false)
+        <hr style="border:5px solid black"> 
+        @RenderSection("footer", required: false)
         <br/>
-       
-        &copy; CPSC1517 NAIT Learning Material, @DateTime.Today.ToShortDateString()
+        &copy; CPSC1517 Nait Learning Material, @DateTime.Today.ToShortDateString()
     </div>
 </body>
 </html>
