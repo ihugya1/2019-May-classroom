@@ -1,0 +1,86 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Exercise 2";
+
+    //retrieve the passed data value(s);
+    //use the .QueryString structure of the Request
+    //syntax
+    //Request.QueryString["passeddatalabel"]
+    //if not label specified is on the url, the result will be null
+    //data is pass as a string
+    var cid = Request.QueryString["cid"];
+
+    //test to see if you actually received a value
+    if (string.IsNullOrEmpty(cid))
+    {
+        Response.Redirect("MultiRecordQuery.cshtml");
+    }
+
+    var db = Database.Open("CDB");
+    var querycommand = @"SELECT Name 
+FROM Artists
+WHERE ArtistId = @0  ";
+
+
+    var queryCategory = @"SELECT AlbumId, Title, ReleaseYear, ReleaseLabel 
+FROM Albums
+WHERE ArtistId = @0 
+ORDER BY Title
+";
+    var datainfo = db.Query(queryCategory, cid);
+    var categoryname = db.QueryValue(queryCategory, cid);
+    
+    var artname = db.QuerySingle(querycommand, cid);
+    //WebGrid is an object
+    //you need to create an inastance of the object
+    //The "default" constructor for WebGrid needs to be given the data set
+    //to control page size, specific the page size as you create your instance
+    var gridinstance = new WebGrid(datainfo, rowsPerPage: 10);
+
+}
+@section banner{
+    <h1>CPSC 1517 Exercise 2</h1>
+
+    <blockquote>
+        Ian Hugya
+    </blockquote>
+}
+
+<span style="font-size:xx-large"><strong>Database: WebGrid</strong></span>
+<br />
+<div class="row">
+    <div class="col-md-offset-1">
+        <span style="font-size:x-large">Albums for @categoryname</span>
+        <!-- default webgrid-->
+        @*@gridinstance.GetHtml();*@
+
+        <!-- customized webgrid
+            a) use bootstrap classes to spread out the columns
+            b) customized the Pager (rowPerPage on new WebGrid command above)
+            c) select specific columns for use columns: instancename.Columns
+               within the .Columns you specify each column your want off your
+               record set
+                  gridinstance.Column(columnName: "xxx", header: "xxx" canSort:true|false
+                         form: escape to C# code)
+            d) add an additional field to the grid that does exist on the query record-->
+        @gridinstance.GetHtml(
+            tableStyle: "table table-bordered table-striped table-hover",
+             mode: WebGridPagerModes.All,
+             firstText: "Start",
+             lastText: "End",
+              columns: gridinstance.Columns(
+                  gridinstance.Column(columnName: "AlbumId", header: "ID", canSort:true),
+                  gridinstance.Column(columnName: "Title", header: "Title", canSort:true),
+                  gridinstance.Column(columnName: "ReleaseYear", header: "Released", canSort: true),
+                  gridinstance.Column(columnName: "ReleaseLabel", header: "Label", canSort: true)
+              
+
+
+                               ))
+        <br />
+        <a href="Exercise2Page1.cshtml">Back to Artists</a>
+    </div>
+</div>
+
+
+

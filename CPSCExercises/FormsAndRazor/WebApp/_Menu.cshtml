@@ -1,0 +1,56 @@
+﻿<div class="navbar navbar-default navbar-fixed-top">
+    <!-- the next div sets up the branding title-->
+    <div class="navbar-header">
+        <a class="navbar-brand" style="font-size:x-large">
+            <strong>Chinook</strong>
+        </a>
+    </div>
+    <!-- menu items area-->
+    <ul class="nav navbar-nav">
+        <!-- root menu item-->
+        <li> <a href="@Href("~/index.cshtml")">Home</a></li>
+        <!-- submenu (drop down menu)-->
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Exercise 1 <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li> <a href="@Href("~/DB_Pages/Exercise1Page1.cshtml")">Exercise #1 Page #1</a></li>
+
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Exercise 2 <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li> <a href="@Href("~/DB_Pages/Exercise2Page1.cshtml")">Exercise 2 Page 1</a></li>
+                <li> <a href="@Href("~/DB_Pages/Exercise2Page2.cshtml")">Exercise 2 Page 2</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Exercise 3 <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li> <a href="@Href("~/SamplePages/TextBoxes.cshtml")">TextBoxes</a></li>
+                <li> <a href="@Href("~/SamplePages/RadioButtons.cshtml")">RadioButtons</a></li>
+                <li> <a href="@Href("~/SamplePages/CheckBoxes.cshtml")">CheckBoxes</a></li>
+                <li> <a href="@Href("~/SamplePages/DropDownList.cshtml")">Dropdowns</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Exercise 4 <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li> <a href="@Href("~/SamplePages/TextBoxes.cshtml")">TextBoxes</a></li>
+                <li> <a href="@Href("~/SamplePages/RadioButtons.cshtml")">RadioButtons</a></li>
+                <li> <a href="@Href("~/SamplePages/CheckBoxes.cshtml")">CheckBoxes</a></li>
+                <li> <a href="@Href("~/SamplePages/DropDownList.cshtml")">Dropdowns</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+

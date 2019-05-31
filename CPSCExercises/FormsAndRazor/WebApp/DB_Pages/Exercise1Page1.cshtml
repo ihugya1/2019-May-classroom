@@ -1,0 +1,113 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Exercise 01 : Basic form Processing";
+    var choice = "";
+    //retrieve the data from the form controls
+    //the form controls can be accessed via the Request object
+    //the Request object has several collections
+    //Form controls are found in the .Form collection
+    //a particular control is referenced by it's name in the Form Collection
+    //syntax  Request.Form["namestring"]
+    //GENERALLY ALL data from controls are strings
+    var leftdata = Request.Form["controlleft"];     //retrieve the control contents
+    var rightdata = Request.Form["controlright"];   //retrieve the control contents
+    var thebutton = Request.Form["formbutton"];     //retrieve the control contents
+    var results = "";  //page local variable
+
+}
+
+@section banner{
+    <h1>Exercise 01 : Basic form Processing</h1>
+}
+
+
+@if (IsPost)
+{
+
+    if (thebutton.Equals("Clear"))
+    {
+
+        leftdata = "";
+
+
+    }
+
+    else if (thebutton.Equals("Left"))
+    {
+        results = leftdata;
+    }
+    else
+    {
+        results = rightdata;
+    }
+}
+
+<form id="theForm" method="post">
+    <div class="row">
+        <div class="col-md-offset-4">
+
+        </div>
+    </div>
+    <label for="controlleft" id="lefttitle">Customer Name</label>
+    <div class="row">
+        <div class="col-md-6">
+
+            <input type="text" id="controlleft" name="controlleft"
+                   placeholder="Customer Name" value="@leftdata" />
+            <br />
+            <br />
+            <br />
+            <input type="submit" id="FormButton" name="FormButton"
+                   class="btn btn-primary" value="Submit" />&nbsp;&nbsp;
+            <input type="submit" id="FormButton" name="FormButton"
+                   class="btn" value="Clear" />
+
+        </div>
+        <div class="col-md-6">
+            <label id="CheckBoxGrouplabel" for="CheckBoxGroup">
+                Choose your meal items :
+            </label><br />
+            <input type="checkbox" id="CheckBoxGroup" name="CheckBoxGroup" value="Steak"
+                   @(Array.IndexOf(choice.Split(','), "Steak") >= 0 ? "checked" : "") />Steak<br />
+            <input type="checkbox" id="CheckBoxGroup" name="CheckBoxGroup" value="Seafood"
+                   @(Array.IndexOf(choice.Split(','), "Seafood") >= 0 ? "checked" : "") />Seafood<br />
+            <input type="checkbox" id="CheckBoxGroup" name="CheckBoxGroup" value="Vegetables"
+                   @(Array.IndexOf(choice.Split(','), "Vegetables") >= 0 ? "checked" : "") />Vegetables<br />
+        </div>
+    </div>
+    <div class="row">
+        @if (IsPost)
+        {
+            //this example demonstrates that you can delay retrieving your form data
+            //    to a time when you really need to have it
+            choice = Request.Form["CheckBoxGroup"];
+
+            if (string.IsNullOrEmpty(leftdata))
+            {
+                <p><span style="color:firebrick">Please enter a name.</span></p>
+                choice = "";
+            }
+            else if (string.IsNullOrEmpty(choice))
+            {
+                <p><span style="color:firebrick">Make selections from the meal choices.</span></p>
+                choice = "";
+            }
+            else
+            {
+                <p>
+                    @leftdata, I see you have the following meal entries:
+                    <ul>
+                        @foreach (var food in choice.Split(','))
+                        {
+                            <li>@food</li>
+                        }
+                    </ul>
+                </p>
+            }
+        }
+
+    </div>
+</form>
+
+
+
